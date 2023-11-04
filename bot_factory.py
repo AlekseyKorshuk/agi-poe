@@ -18,30 +18,35 @@ class BotFactory(PoeBot):
             self, request: QueryRequest
     ) -> AsyncIterable[PartialResponse]:
         last_message = request.query[-1].content
-        create_args = parse_args(last_message)
+        # create_args = parse_args(last_message)
+        create_args = {}
 
         generation_state = GenerationState()
         yield PartialResponse(text="# Bot handle:\n")
-        async for msg in generate_handle(create_args, generation_state):
+        async for msg in generate_handle(request, create_args, generation_state):
             generation_state.handle += msg
             yield PartialResponse(text=msg)
 
         yield PartialResponse(text="\n# Bot bio:\n")
-        async for msg in generate_bio(create_args, generation_state):
+        async for msg in generate_bio(request, create_args, generation_state):
             generation_state.bio += msg
             yield PartialResponse(text=msg)
 
         yield PartialResponse(text="\n# Bot prompt:\n")
-        async for msg in generate_prompt(create_args, generation_state):
+        async for msg in generate_prompt(request, create_args, generation_state):
             generation_state.prompt += msg
             yield PartialResponse(text=msg)
 
         yield PartialResponse(text="\n# Greeting message:\n")
-        async for msg in generate_greeting_message(create_args, generation_state):
+        async for msg in generate_greeting_message(request, create_args, generation_state):
             generation_state.greeting_message += msg
             yield PartialResponse(text=msg)
 
+    # async def get_settings(self, setting: SettingsRequest) -> SettingsResponse:
+    #     return SettingsResponse(
+    #         introduction_message="Hello! I'm your friendly bot. Start chatting with me.",
+    #         server_bot_dependencies={"GPT-3.5-Turbo": 1}
+    #     )
+
     async def get_settings(self, setting: SettingsRequest) -> SettingsResponse:
-        return SettingsResponse(
-            introduction_message="Hello! I'm your friendly bot. Start chatting with me."
-        )
+        return SettingsResponse(server_bot_dependencies={"GPT-3.5-Turbo": 1})
