@@ -3,26 +3,28 @@ from fastapi_poe.types import QueryRequest, ProtocolMessage
 
 from utils import GenerationState
 
-
 async def generate_handle(request: QueryRequest, create_args, generation_state: GenerationState):
-    for msg in ["This", " is", " handle"]:
-        yield msg
+    # Accumulate the conversation history in a formatted string.
+    conversation = "\n\n".join(f"{message.role}: {message.content}" for message in request.query)
+    
+    # Define the bot's task clearly and concisely.
+    system_message = "You are a creative expert tasked with generating unique and catchy names for ChatBots. " \
+                     "Each name should adhere to the following criteria: " \
+                     "be 4-20 characters in length, " \
+                     "only contain letters, numbers, dashes, and underscores, " \
+                     "and be a single name suggestion per response for backend processing."
 
-    conversation = ""
-    for message in request.query:
-        conversation += f"{message.role}: {message.content}\n\n"
+    user_message = f"Here is our conversation with a user requesting a bot name:\n\n{conversation}\n\n" \
+                   "Given this conversation, suggest a suitable name for the ChatBot."
+    
+    # Construct the protocol messages to send to the model.
     request.query = [
-        ProtocolMessage(
-            role="system",
-            content="You are an expert in ChatBots."
-        ),
-        ProtocolMessage(
-            role="user",
-            content="Your task is to come-up with ChatBot name/handle that should be unique and use 4-20 characters, "
-                    "including letters, numbers, dashes and underscores. YOur resposne whould be single bot name so "
-                    "that our backend can copy it. And here is our conversation with user that asks to create a bot:\n "
-                    f"{conversation}"
-        ),
+        ProtocolMessage(role="system", content=system_message),
+        ProtocolMessage(role="user", content=user_message)
     ]
+
+    # Stream the request to the GPT-3.5 model and yield the responses.
     async for msg in stream_request(request, "GPT-3.5-Turbo", request.access_key):
-        yield msg.text
+        # Ensure the response is text-only as we expect a single bot name.
+        yield msg.text.strip()  # Strip any extra whitespace from the name.
+
