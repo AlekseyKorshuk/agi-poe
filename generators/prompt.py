@@ -22,4 +22,3 @@ async def generate_prompt(request: QueryRequest, create_args, generation_state: 
 
     # Yield the full prompt as the output for the function.
     yield full_prompt
-

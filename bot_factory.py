@@ -54,5 +54,5 @@ class BotFactory(PoeBot):
 
     async def get_settings(self, setting: SettingsRequest) -> SettingsResponse:
         return SettingsResponse(
-            server_bot_dependencies={"GPT-3.5-Turbo": 5}
+            server_bot_dependencies={"GPT-4": 5}
         )

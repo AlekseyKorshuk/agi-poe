@@ -28,6 +28,6 @@ async def generate_bio(request: QueryRequest, create_args, generation_state: Gen
     ]
 
     # Stream the request to the GPT-3.5 model and yield the responses.
-    async for msg in stream_request(request, "GPT-3.5-Turbo", request.access_key):
+    async for msg in stream_request(request, "GPT-4", request.access_key):
         # Ensure that the response is text and fits the context of a character biography.
         yield msg.text  # Remove any extra whitespace from the biography.

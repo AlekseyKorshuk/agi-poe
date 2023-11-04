@@ -49,5 +49,5 @@ async def generate_handle(request: QueryRequest, create_args, generation_state: 
                     f"{conversation}"
         ),
     ]
-    async for msg in stream_request(request, "GPT-3.5-Turbo", request.access_key):
+    async for msg in stream_request(request, "GPT-4", request.access_key):
         yield msg.text
