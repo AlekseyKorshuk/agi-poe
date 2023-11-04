@@ -1,41 +1,11 @@
-# Welcome to the Poe server bot quick start. This repo includes starter code that allows you to
-# quickly get a bot running. By default, the code uses the EchoBot, which is a simple bot that
-# echos a message back at its user and is a good starting point for your bot, but you can
-# comment/uncomment any of the following code to try out other example bots or build on top
-# of the EchoBot.
-
 from fastapi_poe import make_app
 from modal import Image, Stub, asgi_app
 
-from echobot import EchoBot
+from bot_factory import BotFactory
 
-# Echo bot is a very simple bot that just echoes back the user's last message.
-bot = EchoBot()
+bot = BotFactory()
 
-# A sample bot that showcases the capabilities the protocol provides. Please see the
-# following link for the full set of available message commands:
-# https://github.com/poe-platform/server-bot-quick-start/blob/main/catbot/catbot.md
-# bot = CatBot()
-
-# A bot that uses Poe's GPT-3.5-Turbo bot, but makes all messages ALL CAPS.
-# Good simple example of using another bot using Poe's bot query API.
-# Please note that since this bot uses another Poe bot, you need to update this bot's settings on
-# Poe by following the instructions at: https://developer.poe.com/server-bots/updating-bot-settings
-# For more details, see: https://developer.poe.com/server-bots/accessing-other-bots-on-poe
-# bot = GPT35TurboAllCapsBot()
-
-# A bot that calls bot GPT-3.5-Turbo and Claude-instant and displays the results.
-# Please note that since this bot uses another Poe bot, you need to update this bot's settings on
-# Poe by following the instructions at: https://developer.poe.com/server-bots/updating-bot-settings
-# For more details, see: https://developer.poe.com/server-bots/accessing-other-bots-on-poe
-# bot = GPT35TurbovsClaudeBot()
-
-# A chatbot based on a model hosted on HuggingFace.
-# bot = HuggingFaceBot("microsoft/DialoGPT-medium")
-
-# The following is setup code that is required to host with modal.com
 image = Image.debian_slim().pip_install_from_requirements("requirements.txt")
-# Rename "poe-server-bot-quick-start" to your preferred app name.
 stub = Stub("poe-server-bot-quick-start")
 
 
