@@ -7,11 +7,7 @@
 from fastapi_poe import make_app
 from modal import Image, Stub, asgi_app
 
-from catbot import CatBot
 from echobot import EchoBot
-from huggingface_bot import HuggingFaceBot
-from turbo_allcapsbot import GPT35TurboAllCapsBot
-from turbo_vs_claude import GPT35TurbovsClaudeBot
 
 # Echo bot is a very simple bot that just echoes back the user's last message.
 bot = EchoBot()
