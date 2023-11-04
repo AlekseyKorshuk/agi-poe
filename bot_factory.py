@@ -26,21 +26,25 @@ class BotFactory(PoeBot):
         async for msg in generate_handle(request, create_args, generation_state):
             generation_state.handle += msg
             yield PartialResponse(text=msg)
+        print(generation_state)
 
         yield PartialResponse(text="\n# Bot bio:\n")
         async for msg in generate_bio(request, create_args, generation_state):
             generation_state.bio += msg
             yield PartialResponse(text=msg)
+        print(generation_state)
 
         yield PartialResponse(text="\n# Bot prompt:\n")
         async for msg in generate_prompt(request, create_args, generation_state):
             generation_state.prompt += msg
             yield PartialResponse(text=msg)
+        print(generation_state)
 
         yield PartialResponse(text="\n# Greeting message:\n")
         async for msg in generate_greeting_message(request, create_args, generation_state):
             generation_state.greeting_message += msg
             yield PartialResponse(text=msg)
+            print(generation_state)
 
     # async def get_settings(self, setting: SettingsRequest) -> SettingsResponse:
     #     return SettingsResponse(
@@ -49,4 +53,6 @@ class BotFactory(PoeBot):
     #     )
 
     async def get_settings(self, setting: SettingsRequest) -> SettingsResponse:
-        return SettingsResponse(server_bot_dependencies={"GPT-3.5-Turbo": 1})
+        return SettingsResponse(
+            server_bot_dependencies={"GPT-3.5-Turbo": 5}
+        )

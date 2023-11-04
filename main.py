@@ -2,8 +2,11 @@ from fastapi_poe import make_app
 from modal import Image, Stub, asgi_app
 
 from bot_factory import BotFactory
+from test import GPT35TurbovsClaudeBot
 
 bot = BotFactory()
+
+# bot = GPT35TurbovsClaudeBot()
 
 image = Image.debian_slim().pip_install_from_requirements("requirements.txt")
 stub = Stub("poe-server-bot-quick-start")
