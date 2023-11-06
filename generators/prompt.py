@@ -6,11 +6,11 @@ from utils import GenerationState
 
 async def generate_prompt(request: QueryRequest, create_args, generation_state: GenerationState):
     # Access the previously generated handle, bio, and greeting message.
-    handle = generation_state.handle
+    name = generation_state.name
     bio = generation_state.bio
 
     # Construct a character directive for the GPT-3.5 Turbo model.
-    character_directive = f"You are the character {handle}. {bio} Stay in character when interacting with the user. " \
+    character_directive = f"You are the character {name}. {bio} Stay in character when interacting with the user. " \
                           "Your responses should reflect the personality and characteristics outlined in your bio. " \
                           "Engage with users in a manner that is coherent with your backstory and abilities."
 

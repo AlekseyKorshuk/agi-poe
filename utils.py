@@ -3,6 +3,7 @@ from dataclasses import dataclass
 
 @dataclass
 class GenerationState:
+    name: str = ""
     handle: str = ""
     bio: str = ""
     prompt: str = ""
@@ -18,19 +19,24 @@ def parse_args(content):
 
 
 def get_full_response(generation_state):
-    return f"### Bot handle\n" \
-           f"```text\n" \
-           f"{generation_state.handle}\n" \
-           f"```\n" \
-           f"### Prompt\n" \
-           f"```text\n" \
-           f"{generation_state.prompt}\n" \
-           f"```\n" \
-           f"### Greeting message\n" \
-           f"```text\n" \
-           f"{generation_state.greeting_message}\n" \
-           f"```\n" \
-           f"### Bio\n" \
-           f"```text\n" \
-           f"{generation_state.bio}\n" \
-           f"```\n"
+    instructions = "## Instructions\n" \
+                   "Visit https://poe.com/create_bot and copy-paste all blocks below to appropriate fields, " \
+                   "press \"Create Bot\"."
+    character = f"## Character\n" \
+                f"### Handle\n" \
+                f"```text\n" \
+                f"{generation_state.handle}\n" \
+                f"```\n" \
+                f"### Prompt\n" \
+                f"```text\n" \
+                f"{generation_state.prompt}\n" \
+                f"```\n" \
+                f"### Greeting message\n" \
+                f"```text\n" \
+                f"{generation_state.greeting_message}\n" \
+                f"```\n" \
+                f"### Bio\n" \
+                f"```text\n" \
+                f"{generation_state.bio}\n" \
+                f"```\n"
+    return instructions + "\n" + character

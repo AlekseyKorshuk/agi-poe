@@ -1,6 +1,7 @@
 from fastapi_poe.client import stream_request
 from fastapi_poe.types import QueryRequest, ProtocolMessage
 
+from config import TEXT_MODEL
 from utils import GenerationState
 
 system = "Your task is to write the first message in the ChatBot environment from the given " \
@@ -49,5 +50,5 @@ async def generate_greeting_message(request: QueryRequest, create_args, generati
                     f"{generation_state.bio}"
         ),
     ]
-    async for msg in stream_request(request, "GPT-4", request.access_key):
+    async for msg in stream_request(request, TEXT_MODEL, request.access_key):
         yield msg.text
